@@ -42,6 +42,11 @@ public class BuildingManager : SingletonMonobehaviour<BuildingManager>
             Vector3 enemySpawnPosition = CultyMarbleHelper.GetMouseToWorldPosition();
             Enemy.Spawn(enemySpawnPosition);
         }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            selectedDefenseBuilding = null;
+            HideBuildingPreview();
+        }
     }
     
     //===========================================================================
@@ -49,7 +54,7 @@ public class BuildingManager : SingletonMonobehaviour<BuildingManager>
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject() && selectedDefenseBuilding != null)
         { // Check if mouse over UI
             Instantiate(selectedDefenseBuilding.prefab, defenseBuildingPosition, Quaternion.identity);
         }
