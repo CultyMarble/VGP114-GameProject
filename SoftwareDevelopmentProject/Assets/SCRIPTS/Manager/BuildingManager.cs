@@ -42,7 +42,7 @@ public class BuildingManager : SingletonMonobehaviour<BuildingManager>
             Vector3 enemySpawnPosition = CultyMarbleHelper.GetMouseToWorldPosition();
             Enemy.Spawn(enemySpawnPosition);
         }
-        else if (Input.GetKeyDown(KeyCode.P))
+        else if (Input.GetMouseButtonDown(1))
         {
             selectedDefenseBuilding = null;
             HideBuildingPreview();

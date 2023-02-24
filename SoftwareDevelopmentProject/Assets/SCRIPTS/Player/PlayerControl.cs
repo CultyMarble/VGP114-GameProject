@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] private GameObject pf_bullet;
     [SerializeField] private float fireRate = 0.075f;
+    [SerializeField] private float bulletLifeSpan = 0.25f;
     public Transform shootingPoint;
     public Transform pivotRotate;
     private bool isShooting;
@@ -87,7 +88,7 @@ public class PlayerControl : MonoBehaviour
 
                 // Create bullet
                 Transform bullet_tranform = Instantiate(pf_bullet, shootingPoint.position, transform.rotation).transform;
-                Destroy(bullet_tranform.gameObject, 3.0f);
+                Destroy(bullet_tranform.gameObject, bulletLifeSpan);
             }
         }
 

@@ -42,7 +42,8 @@ public class PlayerBullet : MonoBehaviour
         shootingPoint = player.GetComponent<PlayerControl>().shootingPoint;
         pivotRotate = player.GetComponent<PlayerControl>().pivotRotate;
 
-        Vector3 _randomDir = new Vector3(shootingPoint.position.x, shootingPoint.position.y + Random.Range(-0.05f, 0.05f), shootingPoint.position.z);
+        // Random bullet direction
+        Vector3 _randomDir = new Vector3(shootingPoint.position.x, shootingPoint.position.y + Random.Range(-0.075f, 0.075f), shootingPoint.position.z);
         moveDirection = (_randomDir - pivotRotate.position).normalized;
     }
 
