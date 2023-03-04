@@ -17,6 +17,8 @@ public class SoundEffectManager : SingletonMonobehaviour<SoundEffectManager>
     private AudioSource audioSource;
     private Dictionary<EnumSound, AudioClip> soundAudioClipDictionary;
 
+    private float volume = 0.5f;
+
     //===========================================================================
     protected override void Awake()
     {
@@ -43,7 +45,7 @@ public class SoundEffectManager : SingletonMonobehaviour<SoundEffectManager>
     //===========================================================================
     public void PlaySound(EnumSound sound)
     {
-        audioSource.PlayOneShot(soundAudioClipDictionary[sound]);
+        audioSource.PlayOneShot(soundAudioClipDictionary[sound], volume);
     }
 
     //===========================================================================
@@ -56,4 +58,18 @@ public class SoundEffectManager : SingletonMonobehaviour<SoundEffectManager>
     {
         PlaySound(EnumSound.BuildingDestroyed);
     }
+
+    public void IncreaseVolume()
+    {
+        volume += 0.05f;
+        volume = Mathf.Clamp01(volume);
+    }
+
+    public void DecreaseVolume()
+    {
+        volume -= 0.05f;
+        volume = Mathf.Clamp01(volume);
+    }
+
+    public float GetVolume() { return volume; }
 }

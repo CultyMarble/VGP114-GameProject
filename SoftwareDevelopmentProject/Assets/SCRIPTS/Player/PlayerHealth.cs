@@ -6,13 +6,13 @@ using UnityEngine.Events;
 
 public class PlayerHealth : SingletonMonobehaviour<PlayerHealth>
 {
-    [SerializeField] private float maxHealth;
-    private float currentHealth;
-    private float healthPercentage;
-
     public event EventHandler<OnPlayerHealthChangedEventArgs> OnPlayerHealthChanged;
     public class OnPlayerHealthChangedEventArgs : EventArgs { public float healthPercentageEvent; }
 
+    [SerializeField] private float maxHealth;
+
+    private float currentHealth;
+    private float healthPercentage;
     //======================================================================
     protected override void Awake()
     {
