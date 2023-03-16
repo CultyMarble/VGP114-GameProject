@@ -34,6 +34,7 @@ public class HealthSystem : MonoBehaviour
         if (currentHealth <= 0)
         {
             SoundEffectManager.Instance.PlaySound(SoundEffectManager.EnumSound.BuildingDestroyed);
+            BuildingManager.Instance.TowerCounter--;
             OnDestroy?.Invoke(this, EventArgs.Empty);
         }
     }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameSceneManager : SingletonMonobehaviour<GameSceneManager>
 {
-    public enum EnumScene
+    public enum Scene
     {
         GameScene,
         MainMenuScene,
@@ -28,7 +28,7 @@ public class GameSceneManager : SingletonMonobehaviour<GameSceneManager>
     }
 
     //===========================================================================
-    public static void Load(EnumScene scene)
+    public static void Load(Scene scene)
     {
         SceneManager.LoadScene(scene.ToString());
     }

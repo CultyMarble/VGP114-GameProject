@@ -20,6 +20,10 @@ public class EnemyWaveManager : SingletonMonobehaviour<EnemyWaveManager>
     [SerializeField] private float waveSpawnTimeReducePerWave;
     [SerializeField] private int initialEnemySpawnAmount;
     [SerializeField] private int enemyAmountIncreasePerWave;
+    [SerializeField] private float initialEnemyHealth;
+    [SerializeField] private float enemyHealthIncreasePerWave;
+    [SerializeField] private float initialEnemyMovementSpeed;
+    [SerializeField] private float enemySpeedIncreasePerWave;
 
     private int waveNumber;
     private State state;
@@ -27,13 +31,13 @@ public class EnemyWaveManager : SingletonMonobehaviour<EnemyWaveManager>
     private float nextEnemySpawnTimer;
     private float nextWaveSpawnTimeCounter;
     private int remainingEnemySpawnAmountCounter;
-    private float waveSpawnTimeLimit = 1;
-    private int enemySpawnAmountLimit = 30;
+    private readonly float waveSpawnTimeLimit = 1;
+    private readonly int enemySpawnAmountLimit = 30;
 
-    private float enemySpawnDelayMin = 0.15f;
-    private float enemySpawnDelayMax = 0.45f;
-    private float minSpawnRadius = 0.0f;
-    private float maxSpawnRadius = 10.0f;
+    private readonly float enemySpawnDelayMin = 0.15f;
+    private readonly float enemySpawnDelayMax = 0.45f;
+    private readonly float minSpawnRadius = 0.0f;
+    private readonly float maxSpawnRadius = 5.0f;
 
     //===========================================================================
     protected override void Awake()
@@ -75,6 +79,9 @@ public class EnemyWaveManager : SingletonMonobehaviour<EnemyWaveManager>
         {
             SpawnWave();
             waveNumber++;
+
+            ResourceManager.Instance.AddResource(CurrencyType.Gas, 1);
+
             OnWaveNumberChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -128,9 +135,9 @@ public class EnemyWaveManager : SingletonMonobehaviour<EnemyWaveManager>
         }
     }
 
-    public Enemy Spawn(Vector3 positition)
+    public Enemy Spawn(Vector3 position)
     {
-        Transform enemyTransform = Instantiate(pfEnemy, positition, Quaternion.identity, pfEnemyParent);
+        Transform enemyTransform = Instantiate(pfEnemy, position, Quaternion.identity, pfEnemyParent);
 
         Enemy enemy = enemyTransform.GetComponent<Enemy>();
         return enemy;
@@ -149,5 +156,11 @@ public class EnemyWaveManager : SingletonMonobehaviour<EnemyWaveManager>
     public Vector3 GetSpawnPosition()
     {
         return spawnPosition;
+    }
+
+    //===========================================================================
+    public void IncreaseNextWaveSpawnTime()
+    {
+        nextWaveSpawnTime += 1.0f;
     }
 }

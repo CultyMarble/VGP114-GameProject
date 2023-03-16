@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -19,12 +17,12 @@ public class GameOverUI : SingletonMonobehaviour<GameOverUI>
 
         retryButton.onClick.AddListener(() =>
         {
-            GameSceneManager.Load(GameSceneManager.EnumScene.GameScene);
+            GameSceneManager.Load(GameSceneManager.Scene.GameScene);
         });
 
         mainMenuButton.onClick.AddListener(() =>
         {
-            GameSceneManager.Load(GameSceneManager.EnumScene.MainMenuScene);
+            GameSceneManager.Load(GameSceneManager.Scene.MainMenuScene);
         });
     }
 

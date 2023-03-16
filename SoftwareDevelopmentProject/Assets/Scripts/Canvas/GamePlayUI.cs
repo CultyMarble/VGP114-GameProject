@@ -59,7 +59,7 @@ public class GamePlayUI : MonoBehaviour
     private void UpdateSpawnIndicator()
     {
         Vector3 directionToNextSpawnPosition = (EnemyWaveManager.Instance.GetSpawnPosition() - mainCamera.transform.position).normalized;
-        enemyWaveSpawnPositionIndicator.anchoredPosition = directionToNextSpawnPosition * 600f;
+        enemyWaveSpawnPositionIndicator.anchoredPosition = directionToNextSpawnPosition * 300.0f;
         enemyWaveSpawnPositionIndicator.eulerAngles = new Vector3(0, 0, CultyMarbleHelper.GetAngleFromVector(directionToNextSpawnPosition));
 
         float distanceToNextSpawnPosition = Vector3.Distance(EnemyWaveManager.Instance.GetSpawnPosition(), mainCamera.transform.position);

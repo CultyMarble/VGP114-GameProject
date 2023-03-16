@@ -8,18 +8,18 @@ public class BuildingManager : SingletonMonobehaviour<BuildingManager>
 {
     public event EventHandler OnPlaceBuilding;
 
-    [SerializeField] private SpriteRenderer buildPreview;
-
-    [SerializeField] private SO_DefenseBuildingList defenseBuildingList;
-    [SerializeField] private SO_ResourceBuildingList resourceBuildingList;
-
     [HideInInspector] public bool ResourceNodeAvailable = false;
-
     [HideInInspector] public Vector3 resourceNodePosition;
     [HideInInspector] public Vector3 defenseBuildingPosition;
+    [HideInInspector] public int TowerCounter = 0;
+
+    [SerializeField] private SpriteRenderer buildPreview;
+    [SerializeField] private SO_DefenseBuildingList defenseBuildingList;
+    [SerializeField] private SO_ResourceBuildingList resourceBuildingList;
+    [SerializeField] private int maxinumTower;
 
     private Camera mainCamera;
-    private SO_DefenseBuildingType selectedDefenseBuilding;
+    [HideInInspector] public SO_DefenseBuildingType selectedDefenseBuilding;
 
     //======================================================================
     protected override void Awake()
@@ -39,7 +39,8 @@ public class BuildingManager : SingletonMonobehaviour<BuildingManager>
         TryPlacingBuilding();
         UpdateBuidlingPreviewPosition();
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) ||
+            ResourceManager.Instance.GetResourceAmount(CurrencyType.Metal) < 100)
         {
             selectedDefenseBuilding = null;
             HideBuildingPreview();
@@ -49,11 +50,18 @@ public class BuildingManager : SingletonMonobehaviour<BuildingManager>
     //===========================================================================
     private void TryPlacingBuilding()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        if (!Input.GetMouseButtonDown(0))
+            return;
+
+        if (TowerCounter == maxinumTower)
+            return;
 
         if (!EventSystem.current.IsPointerOverGameObject() && selectedDefenseBuilding != null)
         { // Check if mouse over UI
+            ResourceManager.Instance.AddResource(CurrencyType.Metal, -100);
+
             Instantiate(selectedDefenseBuilding.prefab, defenseBuildingPosition, Quaternion.identity);
+            TowerCounter++;
 
             OnPlaceBuilding?.Invoke(this, EventArgs.Empty);
         }

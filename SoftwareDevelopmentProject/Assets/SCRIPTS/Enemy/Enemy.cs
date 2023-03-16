@@ -6,7 +6,12 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float knockBackDistance;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private int experience;
+    [SerializeField] private int metalDropMin;
+    [SerializeField] private int metalDropMax;
 
+    private PlayerLevelSystem playerLevelSystem;
     private Transform currentTargetTransform;
     private Rigidbody2D enemy_rb2D;
     private Vector2 movingDirection;
@@ -29,6 +34,8 @@ public class Enemy : MonoBehaviour
     {
         enemy_rb2D = GetComponent<Rigidbody2D>();
         healthSystem = GetComponent<HealthSystem>();
+
+        playerLevelSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerLevelSystem>();
     }
 
     private void Start()
@@ -50,6 +57,7 @@ public class Enemy : MonoBehaviour
     {
         HandleTargeting();
         MoveTowardCurrentTarget();
+        FlipSprite();
     }
 
     //===========================================================================
@@ -135,11 +143,21 @@ public class Enemy : MonoBehaviour
     private void Enemy_OnDestroyHandler(object sender, System.EventArgs e)
     {
         SoundEffectManager.Instance.PlaySound(SoundEffectManager.EnumSound.EnemyDie);
+        playerLevelSystem.IncreaseExp(experience);
+        ResourceManager.Instance.AddResource(CurrencyType.Metal, UnityEngine.Random.Range(metalDropMin, metalDropMax));
         Destroy(gameObject);
     }
 
     private void HealthSystem_OnHealthChanged(object sender, HealthSystem.OnHealthChangedEvenArgs e)
     {
         SoundEffectManager.Instance.PlaySound(SoundEffectManager.EnumSound.EnemyHit);
+    }
+
+    private void FlipSprite()
+    {
+        if (currentTargetTransform.position.x < transform.position.x)
+            spriteRenderer.flipX = true;
+        else
+            spriteRenderer.flipX = false;
     }
 }
